@@ -30,7 +30,7 @@ const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 function videoController(req, res) {
     try {
-    const fileNameWithExtension = `${uniqueFileName}.mp4`;
+    const fileNameWithExtension = `${uniqueFileName}`;
     const filePath = path.join(uploadDirectory, fileNameWithExtension);
 
     // Use fs.exists to check if the file exists
