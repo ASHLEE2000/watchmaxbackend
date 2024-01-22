@@ -24,8 +24,7 @@ router.post('/login', login);
 router.post('/refreshToken', refreshToken);
 
 router.delete('/delete', async (req, res) => {
-    const folderName = req.params.folderName;
-    const folderPath = path.join(__dirname, 'video', folderName); // Update 'your-base-folder' with the actual base folder path
+    const folderPath = path.join(__dirname, '/video'); // Update 'your-base-folder' with the actual base folder path
   
     try {
       // Check if the folder exists
