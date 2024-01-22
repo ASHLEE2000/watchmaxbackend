@@ -23,7 +23,7 @@ router.get('/health', getHealth);
 router.post('/login', login);
 router.post('/refreshToken', refreshToken);
 
-app.delete('/delete', async (req, res) => {
+router.delete('/delete', async (req, res) => {
     const folderName = req.params.folderName;
     const folderPath = path.join(__dirname, 'video', folderName); // Update 'your-base-folder' with the actual base folder path
   
