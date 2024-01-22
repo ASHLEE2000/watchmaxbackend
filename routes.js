@@ -24,25 +24,32 @@ router.post('/login', login);
 router.post('/refreshToken', refreshToken);
 
 router.delete('/delete', async (req, res) => {
-    const folderPath = path.join(__dirname, '/video'); // Update 'your-base-folder' with the actual base folder path
-  
-    try {
-      // Check if the folder exists
-      const folderExists = await fs.access(folderPath, fs.constants.F_OK).then(() => true).catch(() => false);
-  
-      if (!folderExists) {
-        return res.status(404).json({ error: 'Folder not found' });
-      }
-  
-      // Delete the folder and its contents
-      await fs.rmdir(folderPath, { recursive: true });
-  
-      res.status(200).json({ message: 'Folder deleted successfully' });
-    } catch (error) {
-      console.error('Error deleting folder:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+  const folderPath = path.join(__dirname, 'video'); // Update 'your-base-folder' with the actual base folder path
+
+  try {
+    // Check if the folder exists
+    const folderStat = await fs.statSync(folderPath,(err, folderStat) => {
+        if (err) {
+          // Handle the error
+          console.error(err);
+        } else {
+          // Handle the folderStat object (contains information about the folder)
+          console.log(folderStat);
+        }
+      });
+
+    if (!folderStat.isDirectory()) {
+      // Handle case where the path is not a directory
+      return res.status(404).json({ error: 'Folder not found' });
     }
-  });
+
+    // Delete the folder and its contents with a callback
+    await fs.rm(folderPath, { recursive: true });
+  } catch (error) {
+      // Handle case where the folder does not exist
+      return res.status(404).json({ error: 'Folder not found' });
+  }
+});
 
 module.exports = router;
 
